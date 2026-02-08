@@ -38,9 +38,14 @@ bash scripts/setup_deps.sh
 ```
 
 **System Dependencies (macOS):**
-For PDF conversion support, install system libraries:
+For PDF conversion support with WeasyPrint:
 ```bash
+# Install system libraries
 brew install gobject-introspection cairo pango gdk-pixbuf libffi
+
+# The .venv/bin/activate script is automatically configured with the library path.
+# Just activate the environment and WeasyPrint will work!
+source .venv/bin/activate
 ```
 
 **Installed packages:**
