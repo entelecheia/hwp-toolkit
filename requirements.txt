@@ -1,0 +1,9 @@
+# HWP Toolkit Python Dependencies
+# Install with: uv pip install -r requirements.txt
+
+olefile>=0.47
+pyhwp>=0.1b15
+python-hwpx>=1.9
+gethwp>=1.1.1
+weasyprint>=68.0
+markdown>=3.10

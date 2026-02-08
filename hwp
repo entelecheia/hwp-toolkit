@@ -1,0 +1,62 @@
+#!/bin/bash
+# HWP Toolkit - Wrapper Script
+# Provides a convenient interface to all HWP toolkit scripts
+#
+# Usage:
+#   ./hwp read <file.hwp>
+#   ./hwp create <output.hwpx> --markdown <input.md>
+#   ./hwp convert <file.hwpx> --to pdf
+#   ./hwp edit <input.hwpx> <output.hwpx> --replace "old" "new"
+#   ./hwp analyze <file.hwp>
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Show usage if no arguments
+if [ $# -eq 0 ]; then
+    echo "HWP Toolkit - Command-line tools for HWP/HWPX files"
+    echo ""
+    echo "Usage: ./hwp <command> [arguments...]"
+    echo ""
+    echo "Available commands:"
+    echo "  read      - Extract text from HWP/HWPX files"
+    echo "  create    - Create new HWPX files from text/Markdown/JSON"
+    echo "  convert   - Convert HWP/HWPX to PDF, HTML, Markdown, ODT, or text"
+    echo "  edit      - Modify existing HWPX files"
+    echo "  analyze   - Inspect file structure and metadata"
+    echo ""
+    echo "Examples:"
+    echo "  ./hwp read document.hwp"
+    echo "  ./hwp create output.hwpx --markdown input.md --method md2hwp"
+    echo "  ./hwp convert document.hwpx --to pdf -o output.pdf"
+    echo "  ./hwp edit input.hwpx output.hwpx --replace \"old\" \"new\""
+    echo "  ./hwp analyze document.hwp"
+    echo ""
+    echo "For detailed help on each command, run:"
+    echo "  python3 scripts/hwp_<command>.py --help"
+    exit 0
+fi
+
+# Get command and shift arguments
+COMMAND=$1
+shift
+
+# Validate command
+case "$COMMAND" in
+    read|create|convert|edit|analyze)
+        SCRIPT="$SCRIPT_DIR/scripts/hwp_$COMMAND.py"
+        if [ ! -f "$SCRIPT" ]; then
+            echo "Error: Script not found: $SCRIPT"
+            exit 1
+        fi
+        ;;
+    *)
+        echo "Error: Unknown command: $COMMAND"
+        echo "Valid commands: read, create, convert, edit, analyze"
+        exit 1
+        ;;
+esac
+
+# Execute the corresponding Python script
+python3 "$SCRIPT" "$@"

@@ -14,41 +14,57 @@ A comprehensive toolkit for processing Korean HWP (Hangul Word Processor) and HW
 
 ### Installation
 
-Install all required dependencies:
+**Option 1: Using uv (recommended for development):**
+
+```bash
+# Install uv if not already installed
+# curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Create virtual environment and install dependencies
+uv venv
+uv pip install -r requirements.txt
+
+# Install Node.js package
+npm install
+
+# Activate virtual environment
+source .venv/bin/activate
+```
+
+**Option 2: Using setup script (auto-detects Linux/macOS):**
 
 ```bash
 bash scripts/setup_deps.sh
 ```
 
-This installs:
-- Python packages: `olefile`, `pyhwp`, `pyhwp2md`, `python-hwpx`, `gethwp`, `weasyprint`, `markdown`
-- Node.js package: `md2hwp`
-- CLI tool: `unhwp` (Linux x86_64 only)
+**System Dependencies (macOS):**
+For PDF conversion support, install system libraries:
+```bash
+brew install gobject-introspection cairo pango gdk-pixbuf libffi
+```
+
+**Installed packages:**
+- **Python packages:** `olefile`, `pyhwp`, `python-hwpx`, `gethwp`, `weasyprint`, `markdown`
+- **Node.js package:** `md2hwp`
+- **CLI tool:** `unhwp` (Linux x86_64 only; optional on macOS via cargo)
 
 ### Basic Usage
 
-**Read a HWP/HWPX file:**
+**Option 1: Using the wrapper script (recommended):**
+```bash
+./hwp read document.hwp
+./hwp create output.hwpx --markdown input.md --method md2hwp
+./hwp convert document.hwpx --to pdf -o output.pdf
+./hwp edit input.hwpx output.hwpx --replace "old text" "new text"
+./hwp analyze document.hwp
+```
+
+**Option 2: Direct Python script execution:**
 ```bash
 python3 scripts/hwp_read.py document.hwp
-```
-
-**Create HWPX from Markdown:**
-```bash
 python3 scripts/hwp_create.py output.hwpx --markdown input.md --method md2hwp
-```
-
-**Convert to PDF:**
-```bash
 python3 scripts/hwp_convert.py document.hwpx --to pdf -o output.pdf
-```
-
-**Edit a file (replace text):**
-```bash
 python3 scripts/hwp_edit.py input.hwpx output.hwpx --replace "old text" "new text"
-```
-
-**Analyze file structure:**
-```bash
 python3 scripts/hwp_analyze.py document.hwp
 ```
 
@@ -56,12 +72,15 @@ python3 scripts/hwp_analyze.py document.hwp
 
 | Script | Purpose |
 |--------|---------|
+| `hwp` | Wrapper script for convenient command-line usage |
 | `hwp_read.py` | Extract text content from HWP/HWPX files |
 | `hwp_create.py` | Create new HWPX files from various sources |
 | `hwp_convert.py` | Convert HWP/HWPX to PDF, HTML, Markdown, ODT, or text |
 | `hwp_edit.py` | Modify existing HWPX files |
 | `hwp_analyze.py` | Inspect file structure and metadata |
-| `setup_deps.sh` | Install all required dependencies |
+| `setup_deps.sh` | Auto-detect OS and install dependencies |
+| `setup_deps_linux.sh` | Install dependencies for Linux |
+| `setup_deps_macos.sh` | Install dependencies for macOS |
 
 ## File Format Support
 
