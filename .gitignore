@@ -8,4 +8,10 @@ package-lock.json
 venv/
 *.egg-info/
 
+# Test outputs
+tests/output/
+
+# macOS
+.DS_Store
+
 .claude
