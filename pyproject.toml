@@ -3,11 +3,11 @@ name = "hwp-toolkit"
 version = "0.1.0"
 description = "A comprehensive toolkit for processing HWP and HWPX files"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "olefile>=0.47",
     "pyhwp>=0.1b15",
-    "python-hwpx>=1.9",
+    "python-hwpx>=1.9,<2.0",
     "gethwp>=1.1.1",
     "weasyprint>=68.0",
     "markdown>=3.10",
@@ -26,8 +26,8 @@ hwp = "scripts.hwp_wrapper:main"
 
 [tool.black]
 line-length = 100
-target-version = ['py39']
+target-version = ['py310']
 
 [tool.ruff]
 line-length = 100
-target-version = "py39"
+target-version = "py310"
