@@ -49,9 +49,11 @@ source .venv/bin/activate
 ```
 
 **Installed packages:**
-- **Python packages:** `olefile`, `pyhwp`, `python-hwpx`, `gethwp`, `weasyprint`, `markdown`, `mcp`
+- **Python packages:** `olefile`, `pyhwp`, `python-hwpx` (1.9.x), `gethwp`, `weasyprint`, `markdown`, `mcp`
 - **Node.js package:** `md2hwp`
 - **CLI tool:** `unhwp` (Linux x86_64 only; optional on macOS via cargo)
+
+> **Note:** `python-hwpx` 2.0 has a known bug (undefined `ET`). This toolkit pins `python-hwpx>=1.9,<2.0` to avoid it.
 
 ### Basic Usage
 
@@ -134,6 +136,30 @@ Once configured, Claude can read, create, convert, edit, and analyze HWP/HWPX fi
 ## Claude Code Skill
 
 This toolkit is also available as a [Claude Code](https://claude.ai/code) skill for seamless integration with AI-assisted workflows.
+
+## Testing
+
+The toolkit includes a pytest test suite covering all five scripts.
+
+**Requirements:** Python 3.10+, `.venv` with dependencies installed.
+
+```bash
+# Run all tests
+.venv/bin/python -m pytest tests/ -v
+
+# On macOS (WeasyPrint PDF tests require system library path)
+DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib .venv/bin/python -m pytest tests/ -v
+```
+
+| Test file | Coverage |
+|-----------|---------|
+| `tests/test_create.py` | HWPX 생성, Markdown 파싱, md2hwp |
+| `tests/test_read.py` | 텍스트 추출 (md/txt), fallback 파서 |
+| `tests/test_analyze.py` | ZIP 구조 분석, 메타데이터, 단락 수 |
+| `tests/test_edit.py` | 텍스트 교체, 단락/표 추가 |
+| `tests/test_convert.py` | md/html/txt/pdf 변환 |
+
+Tests that require optional dependencies (`pyhwp2md`, `WeasyPrint`) are automatically skipped when those packages are not installed.
 
 ## Documentation
 
