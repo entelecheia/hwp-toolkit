@@ -49,7 +49,7 @@ source .venv/bin/activate
 ```
 
 **Installed packages:**
-- **Python packages:** `olefile`, `pyhwp`, `python-hwpx`, `gethwp`, `weasyprint`, `markdown`
+- **Python packages:** `olefile`, `pyhwp`, `python-hwpx`, `gethwp`, `weasyprint`, `markdown`, `mcp`
 - **Node.js package:** `md2hwp`
 - **CLI tool:** `unhwp` (Linux x86_64 only; optional on macOS via cargo)
 
@@ -83,6 +83,7 @@ python3 scripts/hwp_analyze.py document.hwp
 | `hwp_convert.py` | Convert HWP/HWPX to PDF, HTML, Markdown, ODT, or text |
 | `hwp_edit.py` | Modify existing HWPX files |
 | `hwp_analyze.py` | Inspect file structure and metadata |
+| `mcp_server.py` | MCP server exposing all tools to AI assistants |
 | `setup_deps.sh` | Auto-detect OS and install dependencies |
 | `setup_deps_linux.sh` | Install dependencies for Linux |
 | `setup_deps_macos.sh` | Install dependencies for macOS |
@@ -93,6 +94,42 @@ python3 scripts/hwp_analyze.py document.hwp
 - **HWPX (.hwpx)** - XML-based ZIP format used by newer versions (easier to work with)
 
 Note: Some operations (create, edit) only support HWPX format.
+
+## MCP Server
+
+This toolkit includes an [MCP (Model Context Protocol)](https://modelcontextprotocol.io) server that exposes all tools directly to Claude and other MCP-compatible AI assistants.
+
+### Setup
+
+Add the following to your project's `.mcp.json` (or copy the included one):
+
+```json
+{
+  "mcpServers": {
+    "hwp-toolkit": {
+      "command": "/path/to/hwp-toolkit/.venv/bin/python",
+      "args": ["/path/to/hwp-toolkit/mcp_server.py"],
+      "env": {
+        "DYLD_FALLBACK_LIBRARY_PATH": "/opt/homebrew/lib"
+      }
+    }
+  }
+}
+```
+
+The `DYLD_FALLBACK_LIBRARY_PATH` entry is needed on macOS for WeasyPrint (PDF support). Remove it on Linux.
+
+### Available MCP Tools
+
+| Tool | Description |
+|------|-------------|
+| `hwp_read` | Extract text from HWP/HWPX (md/txt/json) |
+| `hwp_create` | Create HWPX from text, Markdown, or JSON |
+| `hwp_convert` | Convert to pdf/md/html/txt/odt |
+| `hwp_edit` | Replace text, add paragraphs/tables/memos |
+| `hwp_analyze` | Inspect file structure and metadata |
+
+Once configured, Claude can read, create, convert, edit, and analyze HWP/HWPX files directly without leaving the chat.
 
 ## Claude Code Skill
 

@@ -11,6 +11,7 @@ dependencies = [
     "gethwp>=1.1.1",
     "weasyprint>=68.0",
     "markdown>=3.10",
+    "mcp>=1.0",
 ]
 
 [project.optional-dependencies]

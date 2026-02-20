@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "hwp-toolkit": {
+      "command": "/Users/yj.lee/workspace/projects/hwp-toolkit/.venv/bin/python",
+      "args": ["/Users/yj.lee/workspace/projects/hwp-toolkit/mcp_server.py"],
+      "env": {
+        "DYLD_FALLBACK_LIBRARY_PATH": "/opt/homebrew/lib"
+      }
+    }
+  }
+}
